@@ -1,0 +1,23 @@
+import nltk
+from nltk.chat.util import Chat, reflections
+
+# Define the chat pairs for the rule-based system
+chat_pairs = [
+    (r'hi|hello|hey', ['Hi there!', 'Hello!', 'Hey!']),
+    (r'how are you', ['I am good, thank you.', 'I am doing well.']),
+    (r'what is your name', ['I am a chatbot.', 'You can call me ChatGPT.']),
+    (r'bye|goodbye', ['Goodbye!', 'See you later.']),
+]
+
+# Create the chatbot
+chatbot = Chat(chat_pairs, reflections)
+
+# Chat loop
+print("Chatbot: Hi! How can I help you today?")
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == 'exit':
+        break
+
+    response = chatbot.respond(user_input)
+    print("Chatbot:", response)
