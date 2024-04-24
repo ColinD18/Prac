@@ -1,0 +1,26 @@
+from collections import deque
+def bfs(adjacency_matrix, start_vertex):
+    n = len(adjacency_matrix)
+    visited = [False] * n
+    queue = deque()
+    queue.append(start_vertex)
+    visited[start_vertex] = True
+    print("BFS Traversal")
+    while queue:
+        current_vertex = queue.popleft()
+        print(current_vertex, end = "")
+        for neighbour in range(n):
+            if adjacency_matrix[current_vertex][neighbour] == 1 and not visited[neighbour]:
+                queue.append(neighbour)
+                visited[neighbour] = True
+if __name__=="__main__":
+    print("Enter the number of vertices in the graph: ")
+    num_vertices = int(input())
+    print("Enter the graph as an adjacency matrix: ")
+    adjacency_matrix = []
+    for i in range(num_vertices):
+        row = list(map(int, input().split()))
+        adjacency_matrix.append(row)
+    print("Enter the starting vertex for BFS: ")
+    start_vertex = int(input())
+    bfs(adjacency_matrix, start_vertex)
