@@ -1,0 +1,41 @@
+import numpy as np
+
+def total_distance(path, distance_matrix):
+    total = 0
+    for i in range(len(path) - 1):
+        total += distance_matrix[path[i]][path[i + 1]]
+    total += distance_matrix[path[-1]][path[0]]  
+    return total
+
+def generate_initial_solution(num_nodes):
+    return np.random.permutation(num_nodes)
+
+def hill_climbing_tsp(distance_matrix, max_iterations=10000):
+    num_nodes = len(distance_matrix)
+    current_solution = generate_initial_solution(num_nodes)
+    current_distance = total_distance(current_solution, distance_matrix)
+    
+    for _ in range(max_iterations):
+        neighbor = current_solution.copy()
+        i, j = np.random.choice(num_nodes, 2, replace=False)
+        neighbor[i], neighbor[j] = neighbor[j], neighbor[i]
+        neighbor_distance = total_distance(neighbor, distance_matrix)
+        if neighbor_distance < current_distance:
+            current_solution = neighbor
+            current_distance = neighbor_distance 
+    return current_solution, current_distance
+
+def main():
+    num_nodes = int(input("Enter the number of nodes: "))
+    print("Enter the distance matrix:”)
+    distance_matrix = []
+    for _ in range(num_nodes):
+        row = list(map(int, input().split()))
+        distance_matrix.append(row)
+    distance_matrix = np.array(distance_matrix)
+    best_solution, best_distance = hill_climbing_tsp(distance_matrix)
+    print("Best solution:", best_solution)
+    print("Total distance:", best_distance)
+
+if _name_ == "_main_":
+    main()
