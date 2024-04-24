@@ -1,0 +1,220 @@
+!pip install pyspellchecker
+!pip install googletrans==4.0.0-rc1
+!pip install langdetect
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+!pip install spacy
+!python -m spacy download en_core_web_sm
+nltk.download('averaged_perceptron_tagger')
+
+1. TOKENIZATION
+word_data = "It originated from the idea that
+there are readers who prefer learning new skills
+from the comforts of their drawing rooms"
+nltk_tokens = nltk.word_tokenize(word_data)
+print (nltk_tokens)
+OUTPUT:
+['It', 'originated', 'from', 'the', 'idea', 'that',
+'there', 'are', 'readers', 'who', 'prefer', 'learning',
+'new', 'skills', 'from', 'the', 'comforts', 'of',
+'their', 'drawing', 'rooms']
+
+2. STOPWORD REMOVAL
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+example_sent = """This is a sample sentence,
+showing off the stop words filtration."""
+stop_words = set(stopwords.words('english'))
+word_tokens = word_tokenize(example_sent)
+filtered_sentence = [w for w in word_tokens if
+not w.lower() in stop_words]
+filtered_sentence = []
+for w in word_tokens:
+if w not in stop_words:
+filtered_sentence.append(w)
+print(word_tokens)
+print(filtered_sentence)
+OUTPUT:
+['This', 'is', 'a', 'sample', 'sentence', ',', 'showing',
+'off', 'the', 'stop', 'words', 'filtration', '.']
+['This', 'sample', 'sentence', ',', 'showing', 'stop',
+'words', 'filtration', '.']
+
+3. STEMMING
+import nltk
+from nltk.stem import PorterStemmer
+ps = PorterStemmer()
+example_words =
+["program","programming","programer","progr
+ams","programmed"]
+print("{0:20}{1:20}".format("--Word--","--Stem--
+"))
+for word in example_words:
+print ("{0:20}{1:20}".format(word,
+ps.stem(word)))
+OUTPUT:
+--Word-- --Stem--
+program program
+programming program
+programer program
+programs program
+programmed program
+
+4. LEMMATIZATION
+from nltk.stem import WordNetLemmatizer
+nltk.download("wordnet")
+nltk.download("omw-1.4")
+wnl = WordNetLemmatizer()
+example_words =
+["program","programming","programer","progr
+ams","programmed"]
+print("{0:20}{1:20}".format("--Word--","--
+Lemma--"))
+for word in example_words:
+
+5. PART-OF-SPEECH (POS) TAGGING
+import nltk
+text = "NLTK is a leading platform for building
+Python programs to work with human language
+data."
+tokens = nltk.word_tokenize(text)
+pos_tags = nltk.pos_tag(tokens)
+print(pos_tags)
+
+print ("{0:20}{1:20}".format(word,
+wnl.lemmatize(word, pos="v")))
+OUTPUT:
+--Word-- --Lemma--
+program program
+programming program
+programer programer
+programs program
+programmed program
+
+OUTPUT:
+[('NLTK', 'NNP'), ('is', 'VBZ'), ('a', 'DT'), ('leading',
+'VBG'), ('platform', 'NN'), ('for', 'IN'), ('building',
+'VBG'), ('Python', 'NNP'), ('programs', 'NNS'),
+('to', 'TO'), ('work', 'VB'), ('with', 'IN'), ('human',
+'JJ'), ('language', 'NN'), ('data', 'NNS'), ('.', '.')]
+
+6. SENTENCE TOKENIZATION
+import nltk
+from nltk.tokenize import sent_tokenize
+sentence_data = "This is a sample sentence.
+Another sentence goes here."
+nltk_tokens = sent_tokenize(sentence_data)
+print(nltk_tokens)
+OUTPUT:
+['This is a sample sentence.', 'Another sentence
+goes here.']
+
+7. WORD FREQUENCY COUNTING
+def count(elements):
+if elements[-1] == '.':
+elements = elements[0:len(elements) - 1]
+if elements in dictionary:
+dictionary[elements] += 1
+else:
+dictionary.update({elements: 1})
+Sentence = "Apple Mango Orange Mango
+Guava Guava Mango"
+dictionary = {}
+lst = Sentence.split()
+for elements in lst:
+count(elements)
+for allKeys in dictionary:
+print ("Frequency of ", allKeys, end = " ")
+print (":", end = " ")
+print (dictionary[allKeys], end = " ")
+print()
+OUTPUT:
+Frequency of Apple: 1
+Frequency of Mango: 3
+Frequency of Orange: 1
+Frequency of Guava: 2
+
+8. NAMED ENTITY RECOGNITION (NER)
+import spacy
+nlp = spacy.load('en_core_web_sm')
+text = "Apple is looking at buying U.K. startup
+for $1 billion"
+doc = nlp(text)
+for entity in doc.ents:
+print(entity.text, entity.label_)
+OUTPUT:
+Apple ORG
+U.K. GPE
+$1 billion MONEY
+9. BAG-OF-WORDS (BOW) REPRESENTATION
+from sklearn.feature_extraction.text import
+CountVectorizer
+documents = [
+"This is the first document.",
+"This document is the second document.",
+"And this is the third one.",
+"Is this the first document?",
+]
+vectorizer = CountVectorizer()
+
+10. SENTIMENT ANALYSIS
+from textblob import TextBlob
+text = "This movie is great!"
+blob = TextBlob(text)
+sentiment = blob.sentiment
+print("Polarity:", sentiment.polarity)
+print("Subjectivity:", sentiment.subjectivity)
+OUTPUT:
+Polarity: 1.0
+Subjectivity: 0.75
+
+bow_representation =
+vectorizer.fit_transform(documents)
+vocabulary =
+vectorizer.get_feature_names_out()
+print("Bag of Words representation:")
+print(bow_representation.toarray())
+print("\nVocabulary:")
+print(vocabulary)
+OUTPUT:
+Bag of Words representation:
+[[0 1 1 1 0 0 1 0 1]
+[0 2 0 1 0 1 1 0 1]
+[1 0 0 1 1 0 1 1 1]
+[0 1 1 1 0 0 1 0 1]]
+Vocabulary:
+['and' 'document' 'first' 'is' 'one' 'second' 'the'
+'third' 'this']
+
+11. LANGUAGE DETECTION
+from langdetect import detect
+text = "Bonjour tout le monde"
+detected_language = detect(text)
+print("Detected Language:",
+detected_language)
+
+OUTPUT:
+Detected Language: fr
+
+12. TRANSLATION
+from googletrans import Translator
+text = "Hello, how are you?"
+translator = Translator()
+translated_text = translator.translate(text,
+dest='es')
+print("Translated Text:", translated_text.text)
+OUTPUT:
+Translated Text: ¿Hola, cómo estás?
+
+13. SPELLING CORRECTION
+from spellchecker import SpellChecker
+text = "Thiss is a smple text with somee
+misspeled words."
+spell = SpellChecker()
+corrected_text = ' '.join([spell.correction(word)
+for word in text.split()])
+print("Corrected Text:", corrected_text)
+OUTPUT:
+Corrected Text: this is a simple text with some
+misspelled words
